@@ -1,5 +1,7 @@
 package Engine;
 
+import Other.Grid;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -18,6 +20,7 @@ public class GameEngine implements Runnable, GameInterface {
 
     private Window window;
     private static GameEngine gameEngine;
+    private Grid grid;
 
     private boolean isRunning;
     private int targetTime;
@@ -37,6 +40,7 @@ public class GameEngine implements Runnable, GameInterface {
 
     private void init() {
         window = new Window(gameTitle, width, height, scale);
+        grid =  new Grid(width, height, 7, 6);
     }
 
     public synchronized void start() {
@@ -44,7 +48,7 @@ public class GameEngine implements Runnable, GameInterface {
             return;
         }
         isRunning = true;
-        new Thread(this, "Connect Four Ver. " + version).start();
+        new Thread(this).start();
     }
 
     public synchronized void stop() {
@@ -68,6 +72,7 @@ public class GameEngine implements Runnable, GameInterface {
         g.setColor(Color.black);
         g.fillRect(0, 0, width, height);
         //Render Game States Here
+        grid.render(g);
         g.dispose();
         bs.show();
     }
